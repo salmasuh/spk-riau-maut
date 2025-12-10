@@ -11,8 +11,9 @@
   <div class="w-full max-w-md">
     <div class="bg-white rounded-lg shadow-lg p-8">
       <div class="flex justify-center mb-4">
-        <div class="h-12 w-12 bg-blue-700 rounded-md flex items-center justify-center text-white font-bold">DSS</div>
-      </div>
+        <img src="{{ asset('logo_pupr.jpg') }}" class="h-16" alt="Logo">
+    </div>
+
       <h2 class="text-2xl font-semibold text-center mb-2">Masuk Sistem</h2>
       <p class="text-center text-sm text-gray-500 mb-6">Sistem Pendukung Keputusan Infrastruktur Jalan Provinsi Riau</p>
 

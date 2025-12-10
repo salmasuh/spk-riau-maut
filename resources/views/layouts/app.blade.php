@@ -28,10 +28,11 @@
       <!-- Brand -->
       <div class="mb-6">
         <div class="flex items-center gap-3">
-          <div class="avatar-badge">DSS</div>
-          <div>
-            <div class="text-sm font-semibold">DSS Jalan</div>
-            <div class="text-xs opacity-80">Provinsi Riau</div>
+              <img src="{{ asset('logo_pupr.jpg') }}" class="h-16 w-16 rounded-full object-cover border border-white" alt="Logo">
+
+          <div class="flex flex-col justify-center">
+            <div class="text-sm font-semibold leading-tight">DSS Jalan</div>
+            <div class="text-xs opacity-80 leading-tight">Provinsi Riau</div>
           </div>
         </div>
       </div>
