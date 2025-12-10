@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,10 +11,6 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    public function getAuthIdentifierName()
-    {
-        return 'username';
-    }
 
     protected $fillable = [
         'name',
@@ -28,13 +25,14 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // Hapus email_verified_at karena kolom email sudah dihapus
+    // gunakan properti $casts, bukan method
     protected $casts = [
-        // tidak ada cast khusus
+        'email_verified_at' => 'datetime',
     ];
 
     /**
-     * Helper: cek role
+     * Helper: cek apakah user memiliki role tertentu
+     * @param string|array $role
      */
     public function isRole($role): bool
     {
@@ -45,7 +43,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Scope user aktif
+     * Scope: hanya user aktif
      */
     public function scopeActive($query)
     {
