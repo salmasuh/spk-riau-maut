@@ -136,4 +136,10 @@ class PenilaianController extends Controller
 
         return redirect()->route('penilaian.index')->with('success', 'Data penilaian berhasil diperbarui.');
     }
+    public function destroy(Penilaian $penilaian)
+    {
+        $penilaian->delete();
+        
+        return redirect()->route('penilaian.index')->with('success', 'Data penilaian berhasil dihapus.');
+    }
 }

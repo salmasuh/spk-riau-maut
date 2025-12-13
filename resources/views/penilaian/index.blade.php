@@ -72,15 +72,19 @@
               @endif
             </td>
           
-            <td class="py-3 px-3 text-right">
-              <a href="{{ route('penilaian.manage', $jalan) }}" 
-                class="text-blue-600 inline-block mr-2" title="Edit">
-                <svg class="h-5 w-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path d="M15.232 5.232l3.536 3.536M3 21v-3.586a1 1 0 01.293-.707l11-11a1 1 0 011.414 0l3.586 3.586a1 1 0 010 1.414l-11 11A1 1 0 08.414 21H3z"
-                    stroke-width="1.5"/>
-                </svg>
-              </a>
-            </td>
+            <td class="py-4 px-4 text-right">
+                <a href="{{ route('penilaian.edit', $p) }}" class="inline-block mr-2" title="Edit">
+                  <svg class="h-5 w-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536M3 21v-3.586a1 1 0 01.293-.707l11-11a1 1 0 011.414 0l3.586 3.586a1 1 0 010 1.414l-11 11A1 1 0 018.414 21H3z" stroke-width="1.5"/></svg>
+                </a>
+
+                <form action="{{ route('penilaian.destroy', $p) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus penilaian untuk {{ $jalan->nama_jalan }}?');">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="text-red-600" title="Hapus">
+                    <svg class="h-5 w-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7L5 7M10 11v6M14 11v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12" stroke-width="1.5"/></svg>
+                  </button>
+                </form>
+              </td>
           </tr>
         @empty
           <tr>
