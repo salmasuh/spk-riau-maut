@@ -7,7 +7,7 @@
   <div class="flex items-start justify-between mb-4">
     <div>
       <h3 class="text-lg font-semibold">Data Penilaian</h3>
-      <p class="text-sm text-gray-500">Kelola penilaian infrastruktur jalan</p>
+      <div class="text-muted">Total {{ $totalSubmitted }} yang sudah dinilai dari {{ $totalJalan }} data jalan</div>
     </div>
   </div>
 

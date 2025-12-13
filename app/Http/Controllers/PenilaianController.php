@@ -48,7 +48,18 @@ class PenilaianController extends Controller
 
         $subKriterias = SubKriteria::whereIn('id', $subIds)->get()->keyBy('id');
 
-        return view('penilaian.index', compact('jalans','penilaians','kriterias','subKriterias','q'));
+        // Tambahan hitung total data jalan submitted
+        $totalSubmitted = Penilaian::where('status', 'submitted')
+            ->whereHas('jalan', function($query) use ($q){
+                $query->where('status', 'aktif');
+
+                if ($q) {
+                    $query->where('nama_jalan', 'LIKE', "%{$q}%");
+                }
+            })
+            ->count();
+        $totalJalan = Jalan::where('status', 'aktif')->count();
+        return view('penilaian.index', compact('jalans', 'penilaians', 'kriterias', 'subKriterias', 'q', 'totalSubmitted', 'totalJalan'));
     }
 
     public function manageByJalan(Jalan $jalan)
