@@ -101,7 +101,7 @@
           Sistem ini membantu dalam pengambilan keputusan untuk menentukan prioritas proyek perbaikan atau pembangunan infrastruktur jalan provinsi berdasarkan metode Multi Attribute Utility Theory (MAUT). Dengan menggunakan data komprehensif dan analisis mendalam, sistem ini memberikan rekomendasi yang objektif dan terukur.
         </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+        <div class="grid grid-cols-1 gap-4 mt-3">
           <div class="p-4 bg-gray-50 rounded">
             <h4 class="font-semibold mb-2">Tahapan Metode</h4>
             <ul class="text-sm text-gray-700 list-disc list-inside space-y-1">
