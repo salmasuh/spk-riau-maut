@@ -37,20 +37,37 @@ class KriteriaController extends Controller
 
     public function create()
     {
-        $totalBobotAktif = (float) Kriteria::where('status','aktif')->sum('bobot');
-        $sisaBobot = 1.0 - $totalBobotAktif;
-        if ($sisaBobot < 0) $sisaBobot = 0.0;
+        $totalBobotAktif = round(
+            (float) Kriteria::where('status','aktif')->sum('bobot'),
+            2
+        );
+
+        $sisaBobot = max(0, round(1 - $totalBobotAktif, 2));
 
         return view('kriteria.create', compact('totalBobotAktif','sisaBobot'));
     }
 
     public function store(Request $request)
     {
+        $totalAktifSaatIni = round(
+            (float) Kriteria::where('status','aktif')->sum('bobot'),
+            2
+        );
+
+        // JIKA TOTAL SUDAH 1.00 → TOLAK TOTAL
+        if ($totalAktifSaatIni >= 1.00) {
+            return redirect()->back()
+                ->withErrors([
+                    'bobot' => 'Total bobot kriteria sudah mencapai 1.00. Tidak dapat menambahkan kriteria baru.'
+                ])
+                ->withInput();
+        }
+        
         // Validasi dasar
         $rules = [
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'bobot' => 'required|numeric|between:0,1',
+            'bobot' => 'required|numeric|gt:0|lte:1',
             'tipe' => ['required', Rule::in(['benefit','cost'])],
             'status' => ['required', Rule::in(['aktif','tidak_aktif'])],
         ];
@@ -63,7 +80,7 @@ class KriteriaController extends Controller
         }
 
         // Periksa total bobot (server-side) - keamanan
-        $bobotBaru = floatval($request->input('bobot'));
+        $bobotBaru = round((float) $request->input('bobot'), 2);
         $statusBaru = $request->input('status');
 
         // Hitung total bobot aktif saat ini
@@ -126,7 +143,7 @@ class KriteriaController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $bobotBaru = floatval($request->input('bobot'));
+        $bobotBaru = round((float) $request->input('bobot'), 2);
         $statusBaru = $request->input('status');
 
         $totalAktifLainnya = (float) Kriteria::where('status','aktif')

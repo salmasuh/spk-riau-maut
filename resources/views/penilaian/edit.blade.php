@@ -45,7 +45,7 @@
             <option value="">-- Pilih {{ $k->nama }} --</option>
             @foreach($k->subKriterias as $sub)
               <option value="{{ $sub->id }}" {{ (string)$sub->id === (string)$old ? 'selected' : '' }}>
-                {{ $sub->nama }} ({{ number_format($sub->nilai,2) }})
+                {{ $sub->nama }} ({{ number_format($sub->nilai,0) }})
               </option>
             @endforeach
           </select>

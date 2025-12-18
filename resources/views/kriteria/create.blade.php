@@ -15,6 +15,13 @@
     </div>
   @endif
 
+  @if($totalBobotAktif >= 1)
+    <div class="mb-4 p-4 bg-yellow-100 text-yellow-800 rounded">
+      Total bobot kriteria sudah mencapai <strong>1.00</strong>.
+      Tidak dapat menambahkan kriteria baru.
+    </div>
+  @endif
+
   <form method="POST" action="{{ route('kriteria.store') }}" id="form-kriteria">
     @csrf
 
@@ -38,8 +45,8 @@
       </div>
 
       <div>
-        <label class="block text-sm text-gray-700 mb-1">Bobot (0.0000 - 1.0000)</label>
-        <input id="bobot" name="bobot" type="number" step="0.0001" min="0" max="1" value="{{ old('bobot','0.0000') }}" class="w-full p-3 border rounded" required>
+        <label class="block text-sm text-gray-700 mb-1">Bobot (0.00 - 1.00)</label>
+       <input id="bobot" name="bobot" type="number" step="0.01" min="0.01" max="1" value="{{ old('bobot','0.01') }}" class="w-full p-3 border rounded" required {{ $totalBobotAktif >= 1 ? 'disabled' : '' }}>
       </div>
 
       <div>
@@ -51,18 +58,18 @@
       </div>
 
       <div class="md:col-span-2">
-        <p>Total bobot kriteria aktif saat ini: {{ number_format($totalBobotAktif ?? 0, 4) }}</p>
-        <p>Sisa bobot yang masih dapat digunakan: {{ number_format($sisaBobot ?? 1, 4) }}</p>
+        <p>Total bobot kriteria aktif saat ini: {{ number_format($totalBobotAktif ?? 0, 2) }}</p>
+        <p>Sisa bobot yang masih dapat digunakan: {{ number_format($sisaBobot ?? 1, 2) }}</p>
 
         {{-- element untuk JS --}}
-        <span id="current-total" class="hidden">{{ number_format($totalBobotAktif ?? 0, 4) }}</span>
-        <p id="bobot-error" class="text-sm text-red-600 hidden">Jumlah bobot aktif melebihi 1.0000</p>
+        <span id="current-total" class="hidden">{{ number_format($totalBobotAktif ?? 0, 2) }}</span>
+        <p id="bobot-error" class="text-sm text-red-600 hidden">Jumlah bobot aktif melebihi 1.00</p>
       </div>
     </div>
 
     <div class="mt-4">
       <a href="{{ route('kriteria.index') }}" class="inline-block mr-2 px-4 py-2 border rounded">Batal</a>
-      <button id="submit-btn" type="submit" class="px-4 py-2 bg-blue-800 text-white rounded">Simpan</button>
+      <button id="submit-btn" type="submit" class="px-4 py-2 bg-blue-800 text-white rounded"  {{ $totalBobotAktif >= 1 ? 'disabled' : '' }}>Simpan</button>
     </div>
   </form>
 </div>

@@ -18,17 +18,17 @@
   @stack('styles')
 </head>
 <body class="bg-gray-50">
-  <div class="flex">
+  <div class="flex min-h-screen">
     <!-- IMPORTANT:
          - h-screen + sticky top-0 membuat sidebar tetap berada di viewport.
          - nav overflow-y-auto agar menu panjang bisa discroll sendiri.
          - mt-auto pada wrapper pengguna menjaga posisi tetap di dasar sidebar (viewport), bukan dasar halaman.
     -->
-    <aside class="sidebar w-64 p-6 hidden md:flex md:flex-col flex-shrink-0 h-screen sticky top-0">
+    <aside class="sidebar w-64 p-5 hidden md:flex md:flex-col flex-shrink-0 h-screen sticky top-0">
       <!-- Brand -->
       <div class="mb-6">
         <div class="flex items-center gap-3">
-              <img src="{{ asset('logo_pupr.jpg') }}" class="h-16 w-16 rounded-full object-cover border border-white" alt="Logo">
+              <img src="{{ asset('logo_pupr.jpg') }}" class="h-8 w-8 rounded-full object-cover border border-white" alt="Logo">
 
           <div class="flex flex-col justify-center">
             <div class="text-sm font-semibold leading-tight">DSS Jalan</div>
@@ -38,7 +38,7 @@
       </div>
 
       <!-- NAV: scrollable jika panjang -->
-      <nav class="space-y-2 flex-1 overflow-y-auto no-scrollbar">
+      <nav class="space-y-1 flex-1 overflow-y-auto no-scrollbar">
         <a href="{{ route('dashboard') }}" class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
           <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="8" height="8" rx="1.5" stroke-width="1.5"></rect><rect x="13" y="3" width="8" height="8" rx="1.5" stroke-width="1.5"></rect><rect x="3" y="13" width="8" height="8" rx="1.5" stroke-width="1.5"></rect><rect x="13" y="13" width="8" height="8" rx="1.5" stroke-width="1.5"></rect></svg>
           <span>Dashboard</span>

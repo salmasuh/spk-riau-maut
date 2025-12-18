@@ -9,8 +9,8 @@
     <div>
       <h2 class="text-lg font-semibold">Daftar Kriteria</h2>
       <div class="text-sm text-gray-500">Kelola kriteria penilaian MAUT</div>
-      <div class="text-sm text-gray-400 mt-1">Total {{ $kriterias->total() }} kriteria (Total Bobot Aktif: {{ number_format($totalBobotAktif,4) }})</div>
-      <div class="text-sm text-gray-400 mt-1">Sisa bobot yang masih dapat digunakan: {{ number_format($sisaBobot ?? 1, 4) }}</div>
+      <div class="text-sm text-gray-400 mt-1">Total {{ $kriterias->total() }} kriteria (Total Bobot Aktif: {{ number_format($totalBobotAktif,2) }})</div>
+      <div class="text-sm text-gray-400 mt-1">Sisa bobot yang masih dapat digunakan: {{ number_format($sisaBobot ?? 1, 2) }}</div>
     </div>
 
     <div>
@@ -50,7 +50,7 @@
           <tr class="border-b last:border-b-0">
             <td class="py-4 px-4">{{ $k->nama }}</td>
             <td class="py-4 px-4">{{ $k->deskripsi }}</td>
-            <td class="py-4 px-4">{{ number_format($k->bobot,4) }}</td>
+            <td class="py-4 px-4">{{ number_format($k->bobot,2) }}</td>
             <td class="py-4 px-4">
               <span class="px-2 py-1 rounded text-xs bg-gray-100">{{ $k->tipe }}</span>
             </td>

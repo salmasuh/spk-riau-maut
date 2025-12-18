@@ -53,7 +53,7 @@
               @php
                 $subId = $p ? ($p->nilai_kriteria[$k->id] ?? null) : null;
                 $sub = $subKriterias[$subId] ?? null;
-                $display = $sub ? number_format($sub->nilai, 2) : '-';
+                $display = $sub ? number_format($sub->nilai, 0) : '-';
               @endphp
               <td class="py-3 px-3 text-center">{{ $display }}</td>
             @endforeach
