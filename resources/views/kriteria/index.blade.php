@@ -9,7 +9,7 @@
     <div>
       <h2 class="text-lg font-semibold">Daftar Kriteria</h2>
       <div class="text-sm text-gray-500">Kelola kriteria penilaian MAUT</div>
-      <div class="text-sm text-gray-400 mt-1">Total {{ $kriterias->total() }} kriteria (Total Bobot Aktif: {{ number_format($totalBobotAktif,2) }})</div>
+      <div class="text-sm text-gray-400 mt-1">Total {{ $kriterias->count() }} kriteria (Total Bobot Aktif: {{ number_format($totalBobotAktif,2) }})</div>
       <div class="text-sm text-gray-400 mt-1">Sisa bobot yang masih dapat digunakan: {{ number_format($sisaBobot ?? 1, 2) }}</div>
     </div>
 
@@ -62,23 +62,25 @@
               @endif
             </td>
             <td class="py-4 px-4 text-right">
-              {{-- Tombol Edit --}}
-              <a href="{{ route('kriteria.edit', $k) }}" class="inline-block mr-2" title="Edit">
-                <svg class="h-5 w-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path d="M15.232 5.232l3.536 3.536M3 21v-3.586a1 1 0 01.293-.707l11-11a1 1 0 011.414 0l3.586 3.586a1 1 0 010 1.414l-11 11A1 1 0 018.414 21H3z" stroke-width="1.5"/>
-                </svg>
-              </a>
-
-              {{-- Tombol Hapus --}}
-              <form action="{{ route('kriteria.destroy', $k) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus kriteria ini?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="text-red-600 hover:text-red-800 transition" title="Hapus">
+              <div class="flex justify-end items-center">
+                {{-- Tombol Edit --}}
+                <a href="{{ route('kriteria.edit', $k) }}" class="inline-block mr-2" title="Edit">
                   <svg class="h-5 w-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M19 7H5M10 11v6m4-6v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12" stroke-width="1.5"/>
+                    <path d="M15.232 5.232l3.536 3.536M3 21v-3.586a1 1 0 01.293-.707l11-11a1 1 0 011.414 0l3.586 3.586a1 1 0 010 1.414l-11 11A1 1 0 018.414 21H3z" stroke-width="1.5"/>
                   </svg>
-                </button>
-              </form>
+                </a>
+
+                {{-- Tombol Hapus --}}
+                <form action="{{ route('kriteria.destroy', $k) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus kriteria ini?');">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="text-red-600 hover:text-red-800 transition" title="Hapus">
+                    <svg class="h-5 w-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path d="M19 7H5M10 11v6m4-6v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12" stroke-width="1.5"/>
+                    </svg>
+                  </button>
+                </form>
+              </div>
             </td>
 
           </tr>
@@ -87,10 +89,6 @@
         @endforelse
       </tbody>
     </table>
-  </div>
-
-  <div class="mt-4">
-    {{ $kriterias->links() }}
   </div>
 </div>
 @endsection

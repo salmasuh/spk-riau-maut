@@ -23,7 +23,7 @@ class KriteriaController extends Controller
             });
         }
 
-        $kriterias = $query->paginate(10)->withQueryString();
+        $kriterias = $query->get();
 
         // total bobot untuk kriteria aktif (sum bobot active)
         $totalBobotAktif = (float) Kriteria::where('status','aktif')->sum('bobot');

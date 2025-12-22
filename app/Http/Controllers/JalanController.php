@@ -34,7 +34,7 @@ class JalanController extends Controller
             $query->whereRaw('LOWER(`status`) = ?', [$statusNormalized]);
         }
 
-        $jalans = $query->paginate(10)->withQueryString();
+        $jalans = $query->get();
         $totalJalan = Jalan::count();
 
         return view('jalan.index', compact('jalans', 'q', 'status', 'totalJalan'));
@@ -130,7 +130,7 @@ class JalanController extends Controller
         return view('jalan.import');
     }
 
-   public function import(Request $request)
+    public function import(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:csv,txt'
@@ -155,12 +155,12 @@ class JalanController extends Controller
             $namaRuas  = trim($row[4] ?? '');
             $kabupaten = trim($row[5] ?? '');
 
-            // ✅ SKIP HEADER & BARIS TIDAK VALID
+            // SKIP HEADER & BARIS TIDAK VALID
             if (
                 !is_numeric($nomor) ||   // header & catatan pasti bukan angka
                 empty($namaRuas) ||             // nama tidak boleh kosong
-            is_numeric($namaRuas) ||        // nama TIDAK boleh angka
-            strlen($namaRuas) < 5
+                is_numeric($namaRuas) ||        // nama TIDAK boleh angka
+                strlen($namaRuas) < 5
             ) {
                 continue;
             }

@@ -74,19 +74,20 @@
                   $preserve = request()->only(['q','status','page']);
                   $qs = http_build_query(array_filter($preserve, fn($v) => $v !== null && $v !== ''));
                   $editUrl = route('jalan.edit', $jalan) . ($qs ? '?'.$qs : '');
-                  @endphp
+                @endphp
+                <div class="flex justify-end items-center">
+                  <a href="{{ $editUrl }}" class="inline-block mr-2" title="Edit">
+                    <svg class="h-5 w-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536M3 21v-3.586a1 1 0 01.293-.707l11-11a1 1 0 011.414 0l3.586 3.586a1 1 0 010 1.414l-11 11A1 1 0 08.414 21H3z" stroke-width="1.5"/></svg>
+                  </a>
 
-                <a href="{{ $editUrl }}" class="inline-block mr-2" title="Edit">
-                  <svg class="h-5 w-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536M3 21v-3.586a1 1 0 01.293-.707l11-11a1 1 0 011.414 0l3.586 3.586a1 1 0 010 1.414l-11 11A1 1 0 08.414 21H3z" stroke-width="1.5"/></svg>
-                </a>
-
-                <form action="{{ route('jalan.destroy', $jalan) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus data jalan ini?');">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit" class="text-red-600" title="Hapus">
-                    <svg class="h-5 w-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7L5 7M10 11v6M14 11v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12" stroke-width="1.5"/></svg>
-                  </button>
-                </form>
+                  <form action="{{ route('jalan.destroy', $jalan) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus data jalan ini?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-red-600" title="Hapus">
+                      <svg class="h-5 w-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7L5 7M10 11v6M14 11v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12" stroke-width="1.5"/></svg>
+                    </button>
+                  </form>
+                </div>
               </td>
             </tr>
           @empty
@@ -98,9 +99,6 @@
       </table>
     </div>
 
-    <div class="mt-4">
-      {{ $jalans->links() }}
-    </div>
   </div>
 </div>
 @endsection
