@@ -125,4 +125,60 @@ class JalanController extends Controller
         Session::flash('success', 'Data jalan berhasil dihapus.');
         return redirect()->route('jalan.index');
     }
+    public function importForm()
+    {
+        return view('jalan.import');
+    }
+
+   public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,txt'
+        ]);
+
+        $handle = fopen($request->file('file')->getRealPath(), 'r');
+
+        $count = 0;
+
+        while (($row = fgetcsv($handle, 0, ';')) !== false) {
+
+            /*
+            Struktur CSV laporan:
+            [0] NOMOR RUAS
+            [1] NAMA RUAS
+            [2] STATUS
+            [3] PANJANG
+            [4] KABUPATEN/KOTA YANG DILALUI
+            */
+
+            $nomor     = trim($row[0] ?? '');
+            $namaRuas  = trim($row[4] ?? '');
+            $kabupaten = trim($row[5] ?? '');
+
+            // ✅ SKIP HEADER & BARIS TIDAK VALID
+            if (
+                !is_numeric($nomor) ||   // header & catatan pasti bukan angka
+                empty($namaRuas) ||             // nama tidak boleh kosong
+            is_numeric($namaRuas) ||        // nama TIDAK boleh angka
+            strlen($namaRuas) < 5
+            ) {
+                continue;
+            }
+
+            Jalan::create([
+                'nama_jalan'     => $namaRuas,
+                'kabupaten_kota' => $kabupaten ?: '-',
+                'status'         => 'Aktif',
+                'tanggal_input'  => now(),
+            ]);
+
+            $count++;
+        }
+
+        fclose($handle);
+
+        return redirect()
+            ->route('jalan.index')
+            ->with('success', "{$count} data jalan berhasil diimport dari file laporan.");
+    }
 }

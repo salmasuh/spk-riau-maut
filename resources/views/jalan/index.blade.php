@@ -13,10 +13,15 @@
         <div class="text-sm text-gray-400 mt-1">Total {{ $totalJalan }} jalan</div>
       </div>
 
-      <div>
-        <a href="{{ route('jalan.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-800 text-white rounded shadow">
-          <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="1.5"/></svg>
-          Tambah Jalan
+      <div class="flex gap-2">
+        <a href="{{ route('jalan.create') }}"
+          class="inline-flex items-center px-4 py-2 bg-blue-800 text-white rounded shadow">
+          + Tambah Jalan
+        </a>
+
+        <a href="{{ route('jalan.import.form') }}"
+          class="inline-flex items-center px-4 py-2 border rounded">
+          Import CSV
         </a>
       </div>
     </div>
@@ -34,7 +39,7 @@
           <select name="status" class="p-2 border rounded" onchange="this.form.submit()">
             <option value="" {{ empty($status) ? 'selected' : '' }}>Semua Status</option>
             <option value="Aktif" {{ ($status=='Aktif') ? 'selected' : '' }}>Aktif</option>
-            <option value="Tidak Aktif" {{ ($status=='Tidak Aktif') ? 'selected' : '' }}>Tidak Aktif</option>
+            <option value="Tidak Aktif" {{ ($status=='Tidak Aktif') ? 'selected' : '' }}>Tidak Aktif/Selesai</option>
           </select>
           
           <button class="px-4 py-2 bg-blue-800 text-white rounded">Cari</button>

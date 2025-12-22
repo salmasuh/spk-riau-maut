@@ -61,6 +61,12 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('jalan/{jalan}', [JalanController::class, 'destroy'])
             ->name('jalan.destroy');
 
+        Route::get('jalan/import', [JalanController::class, 'importForm'])
+            ->name('jalan.import.form');
+
+        Route::post('jalan/import', [JalanController::class, 'import'])
+            ->name('jalan.import');
+
     });
 
     // 🔹 Staf Lapangan – kelola jalan, input penilaian, lihat hasil
@@ -79,6 +85,12 @@ Route::middleware(['auth'])->group(function () {
             ->name('jalan.update');
         Route::delete('jalan/{jalan}', [JalanController::class, 'destroy'])
             ->name('jalan.destroy');
+
+        Route::get('jalan/import', [JalanController::class, 'importForm'])
+            ->name('jalan.import.form');
+
+        Route::post('jalan/import', [JalanController::class, 'import'])
+            ->name('jalan.import');
 
         Route::resource('penilaian', PenilaianController::class)->except(['show']);
         Route::get('penilaian/manage/{jalan}', [PenilaianController::class, 'manageByJalan'])

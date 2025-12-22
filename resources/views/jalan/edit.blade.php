@@ -59,7 +59,7 @@
         <select name="status" class="w-full p-3 border rounded" required>
           <option value="">-- Pilih Status --</option>
           <option value="Aktif" {{ old('status', $jalan->status) == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-          <option value="Tidak Aktif" {{ old('status', $jalan->status) == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+          <option value="Tidak Aktif" {{ old('status', $jalan->status) == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif/Selesai</option>
         </select>
       </div>
 
