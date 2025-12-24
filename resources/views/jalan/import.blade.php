@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title','Import CSV Jalan')
+@section('page-title','Import CSV Jalan')
 
 @section('content')
 <div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
