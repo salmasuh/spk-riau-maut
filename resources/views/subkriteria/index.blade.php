@@ -55,6 +55,7 @@
           <div>
             <div class="font-semibold">{{ $k->nama }}</div>
             <div class="text-sm text-gray-500">Total {{ $k->subKriterias->count() }} sub kriteria</div>
+            <div class="text-sm text-gray-500">Bobot : {{ number_format($k->bobot,2) }}</div>
           </div>
 
           <div class="flex items-center gap-3">
