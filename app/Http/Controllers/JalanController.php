@@ -53,21 +53,25 @@ class JalanController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {   
-        $validated = $request->validate([
-            'nama_jalan' => 'required|string|max:255',
+    {
+        $request->validate([
+            'nama_jalan' => 'required|string|max:255|unique:jalans,nama_jalan',
             'kabupaten_kota' => 'required|string|max:255',
             'status' => 'required|in:Aktif,Tidak Aktif',
             'tanggal_input' => 'required|date|before_or_equal:today',
         ]);
 
-        $validated['tanggal_input'] = Carbon::now(); // otomatis tanggal saat ini
+        Jalan::create([
+            'nama_jalan'     => trim($request->nama_jalan),
+            'kabupaten_kota' => $request->kabupaten_kota,
+            'status'         => $request->status,
+            'tanggal_input'  => $request->tanggal_input,
+        ]);
 
-        Jalan::create($validated);
-
-        return redirect()->route('jalan.index')->with('success', 'Data Jalan berhasil ditambahkan!');
+        return redirect()
+            ->route('jalan.index')
+            ->with('success', 'Data jalan berhasil ditambahkan.');
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -80,39 +84,31 @@ class JalanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Jalan $jalan)
+   public function update(Request $request, Jalan $jalan)
     {
-        $data = $request->validate([
-            'nama_jalan' => 'required|string|max:255',
+        $request->validate([
+            'nama_jalan' => [
+                'required',
+                'string',
+                'max:255',
+                // ⬇️ INI PENTING: unik, tapi ABAIKAN data yang sedang diedit
+                'unique:jalans,nama_jalan,' . $jalan->id,
+            ],
             'kabupaten_kota' => 'required|string|max:255',
             'status' => 'required|in:Aktif,Tidak Aktif',
             'tanggal_input' => 'required|date|before_or_equal:today',
         ]);
 
-        if (empty($data['tanggal_input'])) {
-            $data['tanggal_input'] = now()->toDateString();
-        }
+        $jalan->update([
+            'nama_jalan'     => trim($request->nama_jalan),
+            'kabupaten_kota' => $request->kabupaten_kota,
+            'status'         => $request->status,
+            'tanggal_input'  => $request->tanggal_input,
+        ]);
 
-        $jalan->update($data);
-
-        Session::flash('success', 'Data jalan berhasil diperbarui.');
-
-       // Ambil nilai filter yang kita simpan di hidden field filter_status
-        $preserve = [
-            'q' => $request->input('q'),
-            // map filter_status menjadi query param 'status' saat redirect
-            'status' => $request->input('filter_status'),
-            'page' => $request->input('page'),
-        ];
-
-        // hapus elemen kosong supaya url tidak penuh param kosong
-        $preserve = array_filter($preserve, fn($v) => $v !== null && $v !== '');
-
-        if (!empty($preserve)) {
-            return redirect()->route('jalan.index', $preserve);
-        }
-
-        return redirect()->route('jalan.index');
+        return redirect()
+            ->route('jalan.index', request()->only(['q','status','page']))
+            ->with('success', 'Data jalan berhasil diperbarui.');
     }
 
     /**
@@ -138,7 +134,8 @@ class JalanController extends Controller
 
         $handle = fopen($request->file('file')->getRealPath(), 'r');
 
-        $count = 0;
+        $inserted = 0;
+        $skipped  = 0;
 
         while (($row = fgetcsv($handle, 0, ';')) !== false) {
 
@@ -165,6 +162,17 @@ class JalanController extends Controller
                 continue;
             }
 
+            // CEK DUPLIKAT
+            $exists = Jalan::whereRaw(
+                'LOWER(nama_jalan) = ?',
+                [Str::lower($namaRuas)]
+            )->exists();
+
+            if ($exists) {
+                $skipped++;
+                continue;
+            }
+
             Jalan::create([
                 'nama_jalan'     => $namaRuas,
                 'kabupaten_kota' => $kabupaten ?: '-',
@@ -172,13 +180,17 @@ class JalanController extends Controller
                 'tanggal_input'  => now(),
             ]);
 
-            $count++;
+            $inserted++;
         }
 
         fclose($handle);
 
         return redirect()
             ->route('jalan.index')
-            ->with('success', "{$count} data jalan berhasil diimport dari file laporan.");
+            ->with('success', "{$inserted} data jalan berhasil diimport dari file laporan.")
+            ->with('warning', $skipped > 0
+                ? "{$skipped} data dilewati karena nama jalan sudah ada."
+                : null
+            );
     }
 }

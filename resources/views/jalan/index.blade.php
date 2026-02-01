@@ -33,6 +33,12 @@
       </div>
     @endif
 
+    @if(session('warning'))
+      <div class="mb-4 text-sm text-yellow-800 bg-yellow-100 p-3 rounded">
+        {{ session('warning') }}
+      </div>
+    @endif
+
     <div class="card bg-white p-4 mb-4">
       <form method="GET" action="{{ route('jalan.index') }}" class="flex gap-3 items-center">
           <input type="text" name="q" value="{{ old('q', $q ?? '') }}" placeholder="Cari nama jalan..."  class="flex-1 p-2 border rounded" />
