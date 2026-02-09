@@ -110,7 +110,7 @@
           <h1 class="text-2xl font-bold">@yield('page-title','Dashboard')</h1>
         </div>
         <div class="flex items-center gap-4">
-          <div class="text-sm text-gray-600 hidden sm:block">Hai,<strong>{{ Auth::user()->name }}</strong></div>
+          <div class="text-sm text-gray-600 hidden sm:block">Hai, <strong>{{ Auth::user()->name }}</strong></div>
           <button class="rounded-full p-2 bg-white shadow"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5" stroke-width="1.5"/></svg></button>
           <button class="rounded-full p-2 bg-white shadow"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 4v16m8-8H4" stroke-width="1.5"/></svg></button>
         </div>

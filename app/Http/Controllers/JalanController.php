@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class JalanController extends Controller
 {
@@ -55,15 +56,22 @@ class JalanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_jalan' => 'required|string|max:255|unique:jalans,nama_jalan',
+            'nama_jalan' => [
+            'required',
+            'string',
+            'max:255',
+            Rule::unique('jalans', 'nama_jalan_lower'),
+        ],
             'kabupaten_kota' => 'required|string|max:255',
             'status' => 'required|in:Aktif,Tidak Aktif',
             'tanggal_input' => 'required|date|before_or_equal:today',
         ]);
 
+        $namaJalan = Str::title(Str::lower(trim($request->nama_jalan)));
+
         Jalan::create([
-            'nama_jalan'     => trim($request->nama_jalan),
-            'kabupaten_kota' => $request->kabupaten_kota,
+            'nama_jalan'     => $namaJalan,
+            'kabupaten_kota' => Str::title(Str::lower($request->kabupaten_kota)),
             'status'         => $request->status,
             'tanggal_input'  => $request->tanggal_input,
         ]);
@@ -88,20 +96,19 @@ class JalanController extends Controller
     {
         $request->validate([
             'nama_jalan' => [
-                'required',
-                'string',
-                'max:255',
-                // ⬇️ INI PENTING: unik, tapi ABAIKAN data yang sedang diedit
-                'unique:jalans,nama_jalan,' . $jalan->id,
-            ],
+            'required',
+            'string',
+            'max:255',
+            Rule::unique('jalans', 'nama_jalan_lower')->ignore($jalan->id),
+        ],
             'kabupaten_kota' => 'required|string|max:255',
             'status' => 'required|in:Aktif,Tidak Aktif',
             'tanggal_input' => 'required|date|before_or_equal:today',
         ]);
 
         $jalan->update([
-            'nama_jalan'     => trim($request->nama_jalan),
-            'kabupaten_kota' => $request->kabupaten_kota,
+            'nama_jalan'     => Str::title(Str::lower(trim($request->nama_jalan))),
+            'kabupaten_kota' => Str::title(Str::lower($request->kabupaten_kota)),
             'status'         => $request->status,
             'tanggal_input'  => $request->tanggal_input,
         ]);
@@ -149,8 +156,8 @@ class JalanController extends Controller
             */
 
             $nomor     = trim($row[0] ?? '');
-            $namaRuas  = trim($row[4] ?? '');
-            $kabupaten = trim($row[5] ?? '');
+            $namaRuas  = Str::title(Str::lower(trim($row[4] ?? '')));
+            $kabupaten = Str::title(Str::lower(trim($row[5] ?? '')));
 
             // SKIP HEADER & BARIS TIDAK VALID
             if (
