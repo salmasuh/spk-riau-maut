@@ -13,11 +13,11 @@ class DemoUsersSeeder extends Seeder
     {
         $now = Carbon::now();
 
-        DB::table('users')->insert([
+        DB::table('users')->upsert([
         [
             'username' => 'admin',
             'name' => 'Admin',
-            'password' => Hash::make('Password123'),
+            'password' => Hash::make('password123'),
             'role' => 'admin',
             'status' => 'aktif',
             'created_at' => $now,

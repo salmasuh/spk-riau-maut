@@ -52,7 +52,7 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => ['required','string','max:255'],
             'username' => ['required','string','max:100','unique:users,username'],
-            'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['required', Rule::in(['admin','pimpinan','staf'])],
             'status' => ['required', Rule::in(['aktif','nonaktif'])],
         ]);
@@ -82,7 +82,7 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => ['required','string','max:255'],
             'username' => ['required','string','max:100', Rule::unique('users','username')->ignore($user->id)],
-            'password' => ['nullable', 'string', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', 'confirmed'],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'role' => ['required', Rule::in(['admin','pimpinan','staf'])],
             'status' => ['required', Rule::in(['aktif','nonaktif'])],
         ]);
