@@ -65,20 +65,19 @@
 
       {{-- Tanggal Input (span full row) --}}
       <div class="md:col-span-2">
-        <label class="block text-sm text-gray-700 mb-1" for="tanggal_input">Tanggal Input</label>
+        <label class="block text-sm text-gray-700 mb-1" for="tanggal_input">Panjang</label>
 
         <input
-          id="tanggal_input"
+          id="panjang"
           type="date"
-          name="tanggal_input"
-          class="w-60 p-3 border rounded @error('tanggal_input') border-red-500 @enderror"
-          value="{{ old('tanggal_input', isset($jalan->tanggal_input) ? \Carbon\Carbon::parse($jalan->tanggal_input)->format('Y-m-d') : now()->format('Y-m-d')) }}"
-          max="{{ date('Y-m-d') }}"
+          name="panjang"
+          class="w-60 p-3 border rounded @error('panjang') border-red-500 @enderror"
+          value="{{ old('panjang') }}"
           required>
 
         <p class="text-sm text-gray-500 mt-1">Tanggal Input mm/dd/yyyy</p>
 
-        @error('tanggal_input')
+        @error('panjang')
           <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
         @enderror
       </div>

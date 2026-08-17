@@ -59,7 +59,7 @@
             <th class="py-3 px-4">Nama Jalan</th>
             <th class="py-3 px-4">Kabupaten/Kota</th>
             <th class="py-3 px-4">Status</th>
-            <th class="py-3 px-4">Tanggal Input</th>
+            <th class="py-3 px-4">Panjang</th>
             <th class="py-3 px-4 text-right">Aksi</th>
           </tr>
         </thead>
@@ -73,7 +73,7 @@
                   {{ $jalan->status }}
                 </span>
               </td>
-              <td class="py-4 px-4">{{ $jalan->tanggal_input ? \Carbon\Carbon::parse($jalan->tanggal_input)->format('Y-m-d') : '-' }}</td>
+              <td class="py-4 px-4">{{ $jalan->panjang }}</td>
               <td class="py-4 px-4 text-right">
                 @php
                   // ambil query saat ini: q, status, page (jika ada)

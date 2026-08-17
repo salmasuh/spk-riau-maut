@@ -60,11 +60,11 @@ class JalanController extends Controller
             'required',
             'string',
             'max:255',
-            Rule::unique('jalans', 'nama_jalan_lower'),
+            Rule::unique('jalans'),
         ],
             'kabupaten_kota' => 'required|string|max:255',
             'status' => 'required|in:Aktif,Tidak Aktif',
-            'tanggal_input' => 'required|date|before_or_equal:today',
+            'panjang' => 'required|numeric|min:0',
         ]);
 
         $namaJalan = Str::title(Str::lower(trim($request->nama_jalan)));
@@ -73,7 +73,7 @@ class JalanController extends Controller
             'nama_jalan'     => $namaJalan,
             'kabupaten_kota' => Str::title(Str::lower($request->kabupaten_kota)),
             'status'         => $request->status,
-            'tanggal_input'  => $request->tanggal_input,
+            'panjang'        => $request->panjang,
         ]);
 
         return redirect()
@@ -99,18 +99,18 @@ class JalanController extends Controller
             'required',
             'string',
             'max:255',
-            Rule::unique('jalans', 'nama_jalan_lower')->ignore($jalan->id),
+            Rule::unique('jalans')->ignore($jalan->id),
         ],
             'kabupaten_kota' => 'required|string|max:255',
             'status' => 'required|in:Aktif,Tidak Aktif',
-            'tanggal_input' => 'required|date|before_or_equal:today',
+            'panjang' => 'required',
         ]);
 
         $jalan->update([
             'nama_jalan'     => Str::title(Str::lower(trim($request->nama_jalan))),
             'kabupaten_kota' => Str::title(Str::lower($request->kabupaten_kota)),
             'status'         => $request->status,
-            'tanggal_input'  => $request->tanggal_input,
+            'panjang'        => $request->panjang,
         ]);
 
         return redirect()
@@ -158,6 +158,7 @@ class JalanController extends Controller
             $nomor     = trim($row[0] ?? '');
             $namaRuas  = Str::title(Str::lower(trim($row[4] ?? '')));
             $kabupaten = Str::title(Str::lower(trim($row[5] ?? '')));
+            $panjang = trim($row[6] ?? '');
 
             // SKIP HEADER & BARIS TIDAK VALID
             if (
@@ -183,8 +184,8 @@ class JalanController extends Controller
             Jalan::create([
                 'nama_jalan'     => $namaRuas,
                 'kabupaten_kota' => $kabupaten ?: '-',
+                'panjang'        => $panjang,
                 'status'         => 'Aktif',
-                'tanggal_input'  => now(),
             ]);
 
             $inserted++;

@@ -10,6 +10,10 @@ use App\Http\Controllers\SubKriteriaController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\HasilController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\MobilController;
+use App\Http\Controllers\SikusikuController;
+use App\Http\Controllers\VolumeLhrController;
 use App\Http\Middleware\RoleMiddleware;
 
 /*
@@ -37,7 +41,24 @@ Route::middleware(['auth'])->group(function () {
 
     // 🔹 Administrator – akses penuh
     Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
+        Route::get('sikusiku',[SikusikuController::class,'index'])->name('sikusiku.index');
+        Route::post('sikusiku',[SikusikuController::class,'hitung'])->name('sikusiku.hitung');
         Route::resource('users', UserController::class);
+        Route::resource('mahasiswa', MahasiswaController::class);
+        Route::resource('mobil', MobilController::class);
+        Route::get('volume_lhr',[VolumeLhrController::class, 'index'])
+            ->name('volume_lhr.index');
+        Route::get('volume_lhr/create/{jalan}',[VolumeLhrController::class,'create'])
+            ->name('volume_lhr.create');
+        Route::post('volume_lhr',[VolumeLhrController::class, 'store'])
+            ->name('volume_lhr.store');
+        Route::get('volume_lhr/{volume_lhr}/edit',[VolumeLhrController::class,'edit'])
+            ->name('volume_lhr.edit');
+        Route::put('volume_lhr/{volume_lhr}',[VolumeLhrController::class,'update'])
+            ->name('volume_lhr.update');
+        Route::delete('volume_lhr/{volume_lhr}',[VolumeLhrController::class,'destroy'])
+            ->name('volume_lhr.destroy');
+
         Route::resource('kriteria', KriteriaController::class)
             ->parameters(['kriteria' => 'kriteria']);
         Route::resource('subkriteria', SubKriteriaController::class)

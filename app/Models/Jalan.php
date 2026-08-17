@@ -13,11 +13,11 @@ class Jalan extends Model
         'nama_jalan',
         'kabupaten_kota',
         'status',
-        'tanggal_input',
+        'panjang',
     ];
 
-    // jika ingin, format tanggal otomatis bisa via accessor (opsional)
-    protected $dates = [
-        'tanggal_input',
-    ];
+    public function volume_lhr()
+    {
+        return $this->hasOne(VolumeLhr::class);
+    }
 }
